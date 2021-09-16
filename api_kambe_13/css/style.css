@@ -1,0 +1,103 @@
+@charset "utf-8";
+body{
+    width:100%; /*ページ全体の幅は100%と指定する*/
+    margin: 0 auto;    /*マージンの指定をする、ブラウザ対策*/
+    background-color: silver;
+
+}
+
+h1{
+    font-family: 'ヒラギノ角ゴシック',Hiragino Sans,"メイリオ",Meiryo,MS PGothic,sans-serif;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    color: mediumblue;
+    margin: auto;
+    text-align: center;
+    text-decoration: midnightblue;
+
+}
+
+P{
+    margin: auto;
+    text-align: center;
+    color: red;  
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+th {
+    border: solid 1px;              /* 枠線指定 */
+    background-color: lightskyblue;
+    font-size: 30px;
+    margin: auto;
+    
+}
+
+td {
+    border: solid 1px;              /* 枠線指定 */
+    font-size: 20px;
+    margin: auto;
+}
+ 
+table {
+    border-collapse:  collapse;     /* セルの線を重ねる */
+    margin: auto;
+}
+
+.mainvisual{
+    width:100%; /*ページ全体の幅は100%と指定する*/	
+    text-align:center; /*ページ全体を中央揃えにする*/
+    margin: 0 auto;    /*マージンの指定をする、ブラウザ対策*/
+    background-color: lawngreen;
+  }
+
+.ronald{
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .news_title{
+    padding-top: 60px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffd61a;
+}
+.news_list{
+    padding-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    width: 960px;
+    margin: 0 auto;
+}
+.newsbox{
+    width: 300px;
+    margin-left:32px;
+}
+.news{
+    width: 960px;
+    margin: 0 auto;
+    text-align: center;  
+    color:black;
+}
+.newsbx_item_img{
+    margin-bottom: 50px;
+    max-width: 40px;
+    max-height: 30px;
+}
+
+
+.newsbx_item_team{
+    text-align: left;
+    margin: auto;
+    text-align: center;
+    color:blue;  
+    font-weight: bold;
+}
+.newsbx_item_text{
+    margin-bottom:56px;
+    text-align: left;
+    color:black;
+    font-weight: bold;
+}

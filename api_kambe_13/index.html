@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>プレミアリーグの順位表・試合予定</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="mainvisual"><img src="img/League_Logo.jpeg" alt="ロゴ"></div>  
+
+    <section class="topics">
+      <h1 class="news">今シーズンの注目３チーム</h3>
+       <ul class="news_list">
+        <li class="newsbox"> 
+          <div class="newsbx_item_team">マンチェスターユナイテッド</div>
+          <div class="newsbx_item_img"><img src="img/マンチェスターU.png" alt="マンチェスターユナイテッド"></div>
+          <div class="newsbx_item_text">ヴァラン、サンチョの大型補強に<br>ポグバが残留。<br>
+          ブルーノ・フェルナンデスは<br>今シーズンも健在。<br>
+          そして、何よりCR7こと<br>クリスティアーノ・ロナウドという<br>王が帰還。<br>
+          今シーズンは久々のチャンピオン<br>奪還か？！</div>
+        </li> 
+
+        <li class="newsbox"> 
+          <div class="newsbx_item_team">チェルシー</div>
+          <div class="newsbx_item_img"><img src="img/チェルシー.png" alt="チェルシー"></div>
+          <div class="newsbx_item_text">昨年のチャンピオンズリーグ覇者は<br>ルカクを再獲得。
+            知将トゥヘル体制<br>２年目で盤石の体制か？！
+          </div>
+        </li> 
+
+        <li class="newsbox"> 
+          <div class="newsbx_item_team">アーセナル</div>
+          <div class="newsbx_item_img"><img src="img/アーセナル.png" alt="アーセナル"></div>
+          <div class="newsbx_item_text">開幕２連敗と苦しんでいるアーセナル。そんな中、富安が移籍最終日に加入。<br>
+          サカ、スミス・ロウ、ウーデゴールの<br>期待の若手が多いだけに<br>勢いに乗りたいところ！</div>
+        </li> 
+       </ul>
+    </section>
+
+    <section class="table1"> 
+    <h1 class="title.a">順位表</h1> 
+    
+    <table>
+        <thead>
+        <tr align="center">
+        <th width="10%">順位</th>
+        <th width="40%">クラブ</th>
+        <th width="10%">試合</th>
+        <th width="10%">勝</th>
+        <th width="10%">分</th>
+        <th width="10%">負</th>
+        <th width="10%">Pts</th>
+        </tr>
+        </thead>
+        <tbody id="league-tbl"></tbody>
+    </table>
+  </section> 
+
+  <section class="table2">
+    <h1 class="title.b">試合日程</h1> 
+    <table>
+        <thead>
+        <tr align="center">
+        <th width="40%">ホーム</th>
+        <th width="20%">日時<br />(日本時間)</th>
+        <th width="40%">アウェイ</th>
+        </tr>
+        </thead>
+        <tbody id="matches-tbl">
+        </tbody>
+    </table>
+    </section>  
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+        $(function() {
+        $.ajaxSetup({
+        headers : {"X-Auth-Token" : "c6808506e94d4870b35f67e008d70ec9"}
+        });
+        $.getJSON('https://api.football-data.org/v2/competitions/PL/standings?standingType=TOTAL', function (data_PL) {
+        //JSON取得後の処理
+        standings = data_PL.standings[0].table;
+        // 順位表にデータを挿入
+        standings.forEach(function(standing) {
+        $("#league-tbl").append(
+        '<tr align="center">'
+        + '<td>' + standing.position + '</td>'
+        + '<td>' + '<div style = "text-align: left"><div style="display: table-cell; vertical-align: middle;"><img src="' + standing.team.crestUrl + '" height="24"></div><div style="display: table-cell; vertical-align: middle;">'
+        + standing.team.name + '</div></div></td>'
+        + '<td>' + standing.playedGames + '</td>'
+        + '<td>' + standing.won + '</td>'
+        + '<td>' + standing.draw + '</td>'
+        + '<td>' + standing.lost + '</td>'
+        + '<td>' + standing.points + '</td>'
+        + '</tr>'
+        )
+        });
+        });
+        });
+
+
+        $(function() {
+        $.ajaxSetup({
+        headers : {"X-Auth-Token" : "c6808506e94d4870b35f67e008d70ec9"}
+        });
+        $.getJSON("https://api.football-data.org/v2/competitions/PL/matches?matchday=5", function(data_PL) {
+        //JSON取得後の処理
+        game_list = data_PL.matches;
+        games_num = data_PL.count;
+        var youbi = ["日", "月", "火", "水", "木", "金", "土"];
+        var date, jdate;
+        var jtime = "";
+        for (var i = 0; i < games_num; i++) {
+        // 日時を日本時間に変換
+        date = new Date(game_list[i].utcDate);
+        date = date.toLocaleString("ja-JP");
+        jdate = new Date(date);
+        jtime = (jdate.getHours() + ':' + ("0" + jdate.getMinutes()).slice(-2)); // キックオフ時刻をX:XX表記にする
+        //日程表にデータを挿入
+        $("#matches-tbl").append(
+        '<tr align="center">'
+        + '<td><img src="https://crests.football-data.org/' + game_list[i].homeTeam.id + '.svg" height="30">'
+        + '<br />'
+        + game_list[i].homeTeam.name + '</td>'
+        + '<td class="' + game_list[i].td_class + '">'
+        + (jdate.getMonth() + 1) + '/' + jdate.getDate() + '(' + youbi[jdate.getDay()] + ')'
+        + '<br />' + jtime + '</td>'
+        + '<td><img src="https://crests.football-data.org/' + game_list[i].awayTeam.id + '.svg" height="30">'
+        + '<br />'
+        + game_list[i].awayTeam.name + '</td>'
+        + '</tr>'
+        );
+        }
+        });
+        });
+        </script>
+        <h1>クリスティアーノ・ロナウドの筋トレメニュー</h1>
+        <p>みんなで明日からクリスティアーノ・ロナウドになろう！！</p>
+        <iframe class="ronald"  width="500" height="300" src="https://www.youtube.com/embed/19BYqt77GPU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        
+  </body>
+  
+</html>
